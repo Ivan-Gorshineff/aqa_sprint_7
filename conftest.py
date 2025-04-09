@@ -2,12 +2,15 @@ import pytest
 import requests
 import random
 import string
+import data_users
 from helper import Helper
 from api_users import UsersApi
-from urls import Urls
+from urls import create_courier_url, main_url
+
 
 # метод регистрации нового курьера возвращает список из логина и пароля
 # если регистрация не удалась, возвращает пустой список
+@pytest.fixture()
 def register_new_courier_and_return_login_password():
     # метод генерирует строку, состоящую только из букв нижнего регистра, в качестве параметра передаём длину строки
     def generate_random_string(length):
@@ -31,7 +34,7 @@ def register_new_courier_and_return_login_password():
     }
 
     # отправляем запрос на регистрацию курьера и сохраняем ответ в переменную response
-    response = requests.post(f'{Urls.create_courier_endpoint}', data=payload)
+    response = requests.post(f'{main_url}{create_courier_url}', data=payload)
 
     # если регистрация прошла успешно (код ответа 201), добавляем в список логин и пароль курьера
     if response.status_code == 201:
@@ -55,3 +58,11 @@ def courier_credentials():
         UsersApi.delete_courier(id_courier)
 
 
+@pytest.fixture
+def create_and_cancel_order():
+    data_order = data_users.ORDER
+    track_container = {}
+    yield data_order, track_container
+
+    if "track" in track_container:
+        UsersApi.cancel_order(track_container)

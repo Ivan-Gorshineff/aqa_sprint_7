@@ -6,11 +6,11 @@ from allure import title,description,step
 
 
 class TestCreateCourier:
-    def test_create_courier(self, courier_credentials):
+    def test_create_courier_return_status_code_201_and_message_ok(self, courier_credentials):
         payload = courier_credentials
         response = UsersApi.create_courier(payload)
         assert response.status_code == 201
-        assert response.text == '{"ok":true}'
+        assert response.json() == {"ok":True}
 
     def test_cant_create_courier_twice(self, courier_credentials):
         payload = courier_credentials
@@ -26,7 +26,7 @@ class TestCreateCourier:
         assert response.status_code == 400
         assert response.json()["message"] == 'Недостаточно данных для создания учетной записи'
 
-    def test_cant_create_courier_with_duplicate_login(self, courier_credentials):
+    def test_cant_create_courier_with_login_already_exists(self, courier_credentials):
         payload = courier_credentials
         UsersApi.create_courier(payload)
         courier_with_duplicate_login = data_users.COURIER_CREDENTIALS_DATA

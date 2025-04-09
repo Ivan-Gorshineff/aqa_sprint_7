@@ -1,4 +1,6 @@
-### Python template
+.venv
+.idea
+.__pycache_### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
