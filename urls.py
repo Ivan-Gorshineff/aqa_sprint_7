@@ -1,4 +1,3 @@
-
 main_url = 'https://qa-scooter.praktikum-services.ru'
 create_courier_url = '/api/v1/courier'
 login_courier_url = '/api/v1/courier/login'

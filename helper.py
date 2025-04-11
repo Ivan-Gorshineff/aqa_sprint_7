@@ -1,5 +1,4 @@
 import random
-
 from faker import Faker
 from string import ascii_letters, digits
 
@@ -10,7 +9,6 @@ class Helper:
     @staticmethod
     def random_string(length=10) -> str:
         return ''.join(random.choices(ascii_letters + digits, k=length))
-
 
     @staticmethod
     def credentials():
